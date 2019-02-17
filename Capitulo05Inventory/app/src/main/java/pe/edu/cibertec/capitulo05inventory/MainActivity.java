@@ -19,6 +19,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Enlaza variale con su lista a partir del id
         rvProduct = findViewById(R.id.rvProduct);
+
+        //Asigna espacio en memoria para el arreglo
+        items = new ArrayList<>();
+
+        //Adaptador
+        AdapterProduct adapterProduct;
+
+        //Cargar la informacio´n a mostrar
+        loadItems();
+
+        //Inicializar el Adaptador
+        adapterProduct = new AdapterProduct(items);
+    }
+
+    private void loadItems() {
+        //Instancia un objeto de la clase Producto
+        Product productLaptop = new Product("Laptop", "Marca Toshiba", 2);
+        //Agrega el objeto creado a la lista
+        items.add(productLaptop);
+
+        Product productMouse = new Product("Mouse", "Modelo Genious", 122);
+        items.add(productMouse);
     }
 }
