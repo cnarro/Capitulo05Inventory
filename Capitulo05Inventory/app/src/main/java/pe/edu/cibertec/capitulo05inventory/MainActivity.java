@@ -2,6 +2,7 @@ package pe.edu.cibertec.capitulo05inventory;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Inicializar el Adaptador
         adapterProduct = new AdapterProduct(items);
+
+        //Decirle al Recycler view cuál es su Adapter
+        rvProduct.setAdapter(adapterProduct);
+
+        rvProduct.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void loadItems() {
