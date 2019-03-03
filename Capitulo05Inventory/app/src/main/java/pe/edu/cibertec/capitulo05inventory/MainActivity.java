@@ -1,6 +1,7 @@
 package pe.edu.cibertec.capitulo05inventory;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +14,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_MAIN = 1;
+
     //Vista
     RecyclerView rvProduct;
 
     //Modelo: Información a mostrar
     ArrayList<Product> items;
+
+    AdapterProduct adapterProduct;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         items = new ArrayList<>();
 
         //Adaptador
-        AdapterProduct adapterProduct;
 
         //Cargar la información a mostrar
         loadItems();
@@ -57,15 +62,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(this,ProductActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_MAIN);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE_MAIN && resultCode == RESULT_OK){
+            String name = data.getStringExtra("product_name");
+            String description = data.getStringExtra("product_description");
+            int quantity= data.getIntExtra("product_quantity", 0);
+            Product product = new Product(name, description, quantity);
+
+            items.add(product);
+            adapterProduct.notifyDataSetChanged();
+        }
     }
 }

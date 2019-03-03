@@ -25,8 +25,8 @@ public class ProductActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = new MenuInflater(this);
-        inflater.inflate(R.menu.product_menu, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.product_menu, menu);
         return true;
     }
 
@@ -36,11 +36,19 @@ public class ProductActivity extends AppCompatActivity {
         String name = etName.getText().toString();
         String description = etDescription.getText().toString();
         int quantity = Integer.parseInt(etQuantity.getText().toString());
+        //Product product = new Product(name, description, quantity);
 
-        Product product = new Product(name, description, quantity);
-        
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+        //Pasamos los valores a través del intent
+        Intent intent = getIntent();
+        intent.putExtra("product_name", name);
+        intent.putExtra("product_description", description);
+        intent.putExtra("product_quantity", quantity);
+
+        //Definimos el código del resultado a la operación realizada y pasamos el intent para que
+        // sepa cuál es la información que va retornar
+        setResult(RESULT_OK, intent);
+        finish();
+
         return true;
     }
 }
